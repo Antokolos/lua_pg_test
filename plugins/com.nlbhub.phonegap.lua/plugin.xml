@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
+           id="com.nlbhub.phonegap.lua"
+      version="0.1.0">
+    <name>PhoneGapLua</name>
+    <description>PhoneGap Lua Plugin</description>
+    <license>MIT</license>
+    <keywords>phonegap,lua</keywords>
+
+
+    <js-module src="www/pglua.js" name="PhoneGapLua">
+        <clobbers target="Lua" />
+    </js-module>
+
+    <!-- android -->
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="PhoneGapLua">
+                <param name="android-package" value="com.nlbhub.phonegap.lua.PhoneGapLua"/>
+            </feature>
+        </config-file>
+
+        <source-file src="libs/luaj-jse-3.0.jar" target-dir="libs" framework="true" />
+        <source-file src="src/com/nlbhub/phonegap/lua/PhoneGapLua.java" target-dir="src/com/nlbhub/phonegap/lua" />
+     </platform>
+</plugin>
