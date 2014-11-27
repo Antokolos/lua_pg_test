@@ -29,4 +29,4 @@ atlassian-ide-plugin.xml
 com_crashlytics_export_strings.xml
 
 # and now, project-specific items
-platforms/android/CordovaLib/
+platforms/android/
