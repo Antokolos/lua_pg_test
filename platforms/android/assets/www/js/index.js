@@ -48,23 +48,26 @@ var app = {
         console.log('Received Event: ' + id);
     },
     execLua: function() {
-        alert("Exec" + window.Lua);
-        window.Lua.initialize();
-        window.Lua.eval(
-            updateView,
-            updateViewError,
-            "6+5",
-            "main.lua"
-        );   
-    },
-    updateView: function(result) {
-        var parentElement = document.getElementById('deviceready');
-        var receivedElement = parentElement.querySelector('.received');
-        receivedElement.innerHTML = "<p>" + result + "</p>";
-    },
-    updateViewError: function(error) {
-        var parentElement = document.getElementById('deviceready');
-        var receivedElement = parentElement.querySelector('.received');
-        receivedElement.innerHTML = "<p>" + error + "</p>";
+        try {
+            window.Lua.initialize();
+            var updateView = function(result) {
+                var parentElement = document.getElementById('deviceready');
+                var receivedElement = parentElement.querySelector('.received');
+                receivedElement.innerHTML = "<p>" + result + "</p>";
+            };
+            var updateViewError = function(error) {
+                var parentElement = document.getElementById('deviceready');
+                var receivedElement = parentElement.querySelector('.received');
+                receivedElement.innerHTML = "<p>" + error + "</p>";
+            };
+            window.Lua.eval(
+                updateView,
+                updateViewError,
+                "6+5",
+                "main.lua"
+            );
+        } catch (e) {
+            alert("Error: " + e.getMessage());
+        }
     }
 };

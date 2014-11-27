@@ -6,8 +6,6 @@ import org.json.JSONObject;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import android.app.Activity;
-import android.content.Intent;
 import org.luaj.vm2.Globals;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.Varargs;
@@ -28,16 +26,6 @@ public class PhoneGapLua extends CordovaPlugin {
         try {
 	    JSONObject arg_object = args.getJSONObject(0);
             if (ACTION_INITIALIZE.equals(action)) {
-                
-                /*Intent calIntent = new Intent(Intent.ACTION_EDIT)
-                    .setType("vnd.android.cursor.item/event")
-                    .putExtra("beginTime", arg_object.getLong("startTimeMillis"))
-                    .putExtra("endTime", arg_object.getLong("endTimeMillis"))
-                    .putExtra("title", arg_object.getString("title"))
-                    .putExtra("description", arg_object.getString("description"))
-                    .putExtra("eventLocation", arg_object.getString("eventLocation"));
-             
-               this.cordova.getActivity().startActivity(calIntent);*/
                 SINGLETON.initialize();
                 callbackContext.success();
                 return true;
@@ -51,7 +39,7 @@ public class PhoneGapLua extends CordovaPlugin {
             } else if (ACTION_EXEC.equals(action)) {
                 String command = arg_object.getString("command");
                 String source_name = arg_object.getString("source_name");
-                LuaValue chunk = m_globals.load(new StringReader(command), source_name);
+                LuaValue chunk = SINGLETON.getGlobals().load(new StringReader(command), source_name);
                 Varargs varargs = chunk.invoke();
                 JSONArray result = new JSONArray();
                 int nargs = varargs.narg();
@@ -76,5 +64,9 @@ public class PhoneGapLua extends CordovaPlugin {
 
     private void initialize() {
         m_globals = JsePlatform.standardGlobals();
+    }
+
+    private Globals getGlobals() {
+        return m_globals;
     }
 }
